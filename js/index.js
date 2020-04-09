@@ -36,7 +36,86 @@ const siteContent = {
     "copyright" : "Copyright Great Idea! 2018"
   },
 };
+const setNav = () => {
+const navData = siteContent.nav;
+const navElements = document.getElementsByTagName('nav')[0].children;
+for (const property in navData) {
+  if (property.includes('src')) {
+    document.getElementById('logo-img').setAttribute('src', navData['img-src']);
+    continue;
+  }
+  navElements[parseInt(property.substr(-1)) - 1].innerText = navData[property];
+};
+}
 
-// Example: Update the img src for the logo
-let logo = document.getElementById("logo-img");
-logo.setAttribute('src', siteContent["nav"]["img-src"])
+const setCta = () => {
+  const ctaData = siteContent.cta;
+  const ctaElements = document.getElementsByClassName('cta-text')[0];
+
+  for (const property in ctaData) {
+    console.log(property);
+    if (property.includes('src')) {
+      //console.log('Replacing the image src');
+      document.getElementById('cta-img').setAttribute('src', ctaData['img-src']);
+      continue;
+    }
+    //console.log(`Replacing the innerText of the ${property} tag`);
+    ctaElements.getElementsByTagName(property)[0].innerText = ctaData[property];
+  }
+};
+
+const setMainContent = () => {
+  const mainContentData = siteContent['main-content'];
+  const mainContentElements = document.getElementsByClassName('main-content')[0].getElementsByClassName('text-content');
+  let childLocation = 0;
+    for (const property in mainContentData) {
+      if (property.includes('src')) {
+        document.getElementById('middle-img').setAttribute('src', mainContentData['middle-img-src']);
+        continue;
+      }
+      if (property.includes('h4')) {
+        mainContentElements[childLocation].getElementsByTagName('h4')[0].innerText = mainContentData[property];
+    }
+      if (property.includes('content')) {
+        mainContentElements[childLocation].getElementsByTagName('p')[0].innerText = mainContentData[property];
+        childLocation += 1;
+    }
+  }
+};
+
+const setContact = () => {
+  //Information from site JSON
+  const contactData = siteContent.contact;
+
+  //DOM elements we want to manipulate
+  const contactElements = document.getElementsByClassName('contact')[0];
+
+  let childLocation = 0;
+
+  // Looping over each property (key) of the JSON data we singled out
+  for (const property in contactData) {
+    if (property.includes('h4')) {
+      contactElements.getElementsByTagName('h4')[0].innerText = contactData[property];
+      continue;
+    }
+
+    //Setup this loops p tag data
+    contactElements.getElementsByTagName('p')[childLocation].innerText = contactData[property];
+    
+    //Incrrement to next p tag
+    childLocation += 1;
+  }
+}
+
+const setupPage = () => {
+  setNav();
+  setCta();
+  setMainContent();
+  setContact();
+}
+
+setupPage();
+
+//Example: Update the img src for the logo
+//let logo = document.getElementById("logo-img");
+//logo.setAttribute('src', siteContent["nav"]["img-src"]);
