@@ -37,7 +37,11 @@ const siteContent = {
   },
 };
 const setNav = () => {
+
+// Information from siteContent JSON
 const navData = siteContent.nav;
+
+
 const navElements = document.getElementsByTagName('nav')[0].children;
 for (const property in navData) {
   if (property.includes('src')) {
@@ -49,6 +53,7 @@ for (const property in navData) {
 }
 
 const setCta = () => {
+  // Information from siteContent JSON
   const ctaData = siteContent.cta;
   const ctaElements = document.getElementsByClassName('cta-text')[0];
 
@@ -65,53 +70,83 @@ const setCta = () => {
 };
 
 const setMainContent = () => {
+
+  // Information from siteContent JSON
   const mainContentData = siteContent['main-content'];
+
+  // DOM Elements we want to manipulate
   const mainContentElements = document.getElementsByClassName('main-content')[0].getElementsByClassName('text-content');
+
+  // Setup variable to track location in the DOM p tags
   let childLocation = 0;
+
+  // Looping over each property (key) of the JSON data we singled out
     for (const property in mainContentData) {
       if (property.includes('src')) {
         document.getElementById('middle-img').setAttribute('src', mainContentData['middle-img-src']);
         continue;
       }
+
+      // This is h4 we have so lets get this set and continue the loop.
       if (property.includes('h4')) {
         mainContentElements[childLocation].getElementsByTagName('h4')[0].innerText = mainContentData[property];
     }
+      // Setup this loops p tag data
       if (property.includes('content')) {
         mainContentElements[childLocation].getElementsByTagName('p')[0].innerText = mainContentData[property];
+        // Increment to next p tag
         childLocation += 1;
     }
   }
 };
 
 const setContact = () => {
-  //Information from site JSON
+  
+  // Information from siteContent JSON
   const contactData = siteContent.contact;
 
-  //DOM elements we want to manipulate
+  // DOM Elements we want to manipulate
   const contactElements = document.getElementsByClassName('contact')[0];
 
+  // Setup variable to track location in the DOM p tags
   let childLocation = 0;
 
   // Looping over each property (key) of the JSON data we singled out
   for (const property in contactData) {
     if (property.includes('h4')) {
+      // This is the only h4 we have so lets get this set and continue the loop.
       contactElements.getElementsByTagName('h4')[0].innerText = contactData[property];
       continue;
     }
 
-    //Setup this loops p tag data
-    contactElements.getElementsByTagName('p')[childLocation].innerText = contactData[property];
-    
-    //Incrrement to next p tag
+    let value = contactData[property];
+    if (property === 'address') {
+      // "123 Way 456 Street Somewhere, USA"
+      value = value.replace(' Somewhere', '<br>Somewhere');
+    }
+
+    // Setup this loops p tag data
+    contactElements.getElementsByTagName('p')[childLocation].innerHTML = value;
+
+    // Increment to next p tag
     childLocation += 1;
   }
 }
+
+
+//"footer": {
+//"copyright" : "Copyright Great Idea! 2018"
+
+const setFooter = () => {
+  document.getElementsByTagName('footer')[0].getElementsByTagName('p')[0].innerText = siteContent.footer.copyright;
+  };
 
 const setupPage = () => {
   setNav();
   setCta();
   setMainContent();
   setContact();
+  setFooter();
 }
 
 setupPage();
