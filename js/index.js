@@ -145,17 +145,32 @@ const setFooter = () => {
   document.getElementsByTagName('footer')[0].getElementsByTagName('p')[0].innerText = siteContent.footer.copyright;
   };
 
+  const updateNavColor = () => {
+    const navItems = document.getElementsByTagName('nav')[0].children;
+    for (let i = 0; i < navItems.length; i += 1) {
+      navItems[i].style.color = 'green';
+    }
+  }
   
-
-const setupPage = () => {
-  setNav();
-  setCta();
-  setMainContent();
-  setContact();
-  setFooter();
-}
-
-setupPage();
+  const createMenuItem = (name) => {
+    let a = document.createElement('a');
+    a.textContent = name;
+    a.setAttribute('href', '#');
+    return a;
+  }
+  
+  const setupPage = () => {
+    setNav();
+    setCta();
+    setMainContent();
+    setContact();
+    setFooter();
+    updateNavColor();
+    document.getElementsByTagName('nav')[0].appendChild(createMenuItem('Append'));
+    document.getElementsByTagName('nav')[0].prepend(createMenuItem('Prepend'));
+  }
+  
+  setupPage();
 
 //Example: Update the img src for the logo
 //let logo = document.getElementById("logo-img");
