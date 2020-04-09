@@ -56,16 +56,20 @@ const setCta = () => {
   // Information from siteContent JSON
   const ctaData = siteContent.cta;
   const ctaElements = document.getElementsByClassName('cta-text')[0];
+  
 
   for (const property in ctaData) {
-    console.log(property);
-    if (property.includes('src')) {
+
+      if (property.includes('src')) {
       //console.log('Replacing the image src');
       document.getElementById('cta-img').setAttribute('src', ctaData['img-src']);
       continue;
     }
-    //console.log(`Replacing the innerText of the ${property} tag`);
-    ctaElements.getElementsByTagName(property)[0].innerText = ctaData[property];
+    let value = ctaData[property];
+    if (property === 'h1') {
+      value = 'DOM<br> Is<br> Awesome'
+    }
+    ctaElements.getElementsByTagName(property)[0].innerHTML = value;
   }
 };
 
@@ -101,7 +105,7 @@ const setMainContent = () => {
 };
 
 const setContact = () => {
-  
+
   // Information from siteContent JSON
   const contactData = siteContent.contact;
 
@@ -140,6 +144,8 @@ const setContact = () => {
 const setFooter = () => {
   document.getElementsByTagName('footer')[0].getElementsByTagName('p')[0].innerText = siteContent.footer.copyright;
   };
+
+  
 
 const setupPage = () => {
   setNav();
